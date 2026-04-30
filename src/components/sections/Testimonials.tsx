@@ -1,7 +1,7 @@
 const testimonials = [
   {
     quote:
-      "I've been working with iDOC for about 3 years and they have been great from the beginning. Communication is always prompt and the work is consistently excellent.",
+      "I've been working with IDOC for about 3 years and they have been great from the beginning. Communication is always prompt and the work is consistently excellent.",
     name: "Dr. Arvin Ahmadiah",
     role: "Private Practice, CA",
     initials: "AA",

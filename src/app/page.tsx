@@ -1,4 +1,5 @@
 import Hero         from "@/components/sections/Hero";
+import QuickActions from "@/components/sections/QuickActions";
 import StatsBar     from "@/components/sections/StatsBar";
 import Services     from "@/components/sections/Services";
 import Komplett     from "@/components/sections/Komplett";
@@ -11,6 +12,7 @@ export default function HomePage() {
     <>
        <main>
         <Hero />
+        <QuickActions />   
         <StatsBar />
         <Services />
         <Komplett />

@@ -2,7 +2,7 @@ const stats = [
   { value: "20+",  label: "Years in business"  },
   { value: "500+", label: "Dental practices"    },
   { value: "50",   label: "Skilled technicians" },
-  { value: "3–5",  label: "Day avg. turnaround" },
+  { value: "5–7",  label: "Day avg. turnaround" },
 ];
 
 export default function StatsBar() {

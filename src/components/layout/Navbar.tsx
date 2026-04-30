@@ -59,10 +59,10 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className="hidden items-center gap-4 md:flex">
           <a
-            href="tel:+17145550000"
+            href="tel:+1-877-388-4362"
             className="text-sm text-white/30 hover:text-white/60 transition-colors"
           >
-            (714) 555-0000
+            (877) 388-4362
           </a>
           <Link
             href="/get-started"
@@ -108,10 +108,10 @@ export default function Navbar() {
             ))}
             <div className="mt-2 border-t border-white/5 pt-3">
               <a
-                href="tel:+17145550000"
+                href="tel:+1-877-388-4362"
                 className="block rounded-lg px-3 py-2.5 text-sm text-white/30"
               >
-                (714) 555-0000
+                (877) 388-4362
               </a>
             </div>
           </nav>

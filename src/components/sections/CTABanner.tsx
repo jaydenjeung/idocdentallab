@@ -20,10 +20,10 @@ export default function CTABanner() {
             Send a case
           </Link>
           <a
-            href="tel:+17145550000"
+            href="tel:+18773884362"
             className="rounded-full border border-white/20 px-8 py-3.5 text-[13px] text-white/60 transition-colors hover:border-white/40 hover:text-white/80"
           >
-            (714) 555-0000
+            (877) 388-4362
           </a>
         </div>
       </div>
