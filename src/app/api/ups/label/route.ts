@@ -1,6 +1,6 @@
 // app/api/ups/label/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { getUPSToken } from "@/app/api/ups/token/route";
+import { getUPSToken } from "@/app/api/ups/token/upsToken";
 
 export async function POST(req: NextRequest) {
   try {
