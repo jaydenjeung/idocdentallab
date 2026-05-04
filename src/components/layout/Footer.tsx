@@ -45,10 +45,10 @@ export default function Footer() {
               practices since 2001.
             </p>
             <a
-              href="tel:+17145550000"
+              href="tel:+1-877-388-4362"
               className="mt-4 block text-[13px] text-white/30 hover:text-white/60 transition-colors"
             >
-              (714) 555-0000
+              (877) 388-4362
             </a>
           </div>
 

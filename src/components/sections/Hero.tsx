@@ -13,17 +13,17 @@ export default function Hero() {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/25 px-3 py-1.5">
               <div className="h-1.5 w-1.5 rounded-full bg-green-400" />
               <span className="text-[10px] font-medium uppercase tracking-widest text-green-400">
-                Southern California&apos;s Premier Dental Lab
+                CDL Certified Full Service Dental Lab
               </span>
             </div>
 
             <h1 className="mb-5 font-serif text-[44px] leading-[1.02] tracking-[-1.5px] text-white md:text-[56px]">
-              Precision-crafted.<br />
-              <em className="text-green-400">People</em> first.
+              Your chair time is everything. We handle the rest.<br />
+              <span className="text-green-400">People</span> first.
             </h1>
 
             <p className="mb-8 max-w-md text-[15px] leading-relaxed text-white/40 font-light">
-              From single-unit crowns to full-arch implant cases — iDOC delivers
+              From single-unit crowns to full-arch implant cases — IDOC delivers
               lab-grade quality with in-house CAD/CAM milling and 3D printing,
               backed by 20+ years of expertise.
             </p>
