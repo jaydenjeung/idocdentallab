@@ -17,7 +17,7 @@ export default function CTABanner() {
             href="/get-started"
             className="rounded-full bg-white px-8 py-3.5 text-[13px] font-medium text-green-900 transition-opacity hover:opacity-90"
           >
-            Send a case
+            Get Started
           </Link>
           <a
             href="tel:+18773884362"

@@ -4,35 +4,35 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "iDOC Dental Lab has served Southern California dental practices for over 20 years. Learn about our story, values, and commitment to quality.",
+    "IDOC Dental Lab has served Southern California dental practices for over 20 years. Learn about our story, values, and commitment to quality.",
 };
 
 const values = [
   {
     title: "People first.",
-    desc: "Behind every restoration is a patient. We never forget that our work affects real people's lives — and we take that seriously.",
+    desc: "Denture patients have a right to chew steak too. Every restoration we make is for a real person — not a case number. We don't forget that.",
   },
   {
-    title: "In-house, always.",
-    desc: "We don't outsource. Every case is fabricated in our Cypress facility by our own technicians, on our own equipment.",
+    title: "Call us. We pick up.",
+    desc: "Our CS team knows your cases by name. Questions, updates, problems — you get a real answer from someone who actually works here.",
   },
   {
-    title: "Precision over speed.",
-    desc: "Fast turnaround matters — but not at the cost of fit. Our QC process exists to make sure every case is right before it ships.",
+    title: "Fit before it ships.",
+    desc: "We'd rather call you about a delay than send you a case that doesn't seat. Our QC process isn't a formality — it's the last person who checks before your patient sits down.",
   },
   {
-    title: "Long-term partnerships.",
-    desc: "We don't chase volume. We build relationships with practices that value quality, communication, and consistency.",
+    title: "We know what frustrates you.",
+    desc: "Cases that come back wrong. Remakes that disappear into a void. No one who knows your account when you call. We've heard it for 20 years — and we built IDOC to be the answer.",
   },
 ];
 
 const milestones = [
-  { year: "2001", event: "iDOC founded in Cypress, CA" },
-  { year: "2008", event: "Introduced in-house CAD/CAM milling" },
-  { year: "2014", event: "Expanded to full digital workflow" },
-  { year: "2018", event: "Added in-house 3D printing capabilities" },
-  { year: "2021", event: "Reached 500+ active dental practice partners" },
-  { year: "2024", event: "Launched digital case submission platform" },
+  { year: "2001", event: "Founded in Garden Grove, CA — one room, a few mills, and a belief that local labs could do better" },
+  { year: "2008", event: "Invested in in-house CAD/CAM before it was standard" },
+  { year: "2014", event: "Moved to a fully digital workflow end-to-end" },
+  { year: "2018", event: "Added in-house 3D printing" },
+  { year: "2021", event: "Passed 500 active practice partners across Southern California" },
+  { year: "2024", event: "Launched digital case submission — no impressions, no shipping delays" },
 ];
 
 export default function AboutPage() {
@@ -45,11 +45,11 @@ export default function AboutPage() {
             Our story
           </p>
           <h1 className="mb-6 font-serif text-[40px] leading-[1.05] tracking-[-1px] text-ink md:text-[56px]">
-            20 years of precision.<br />Built on trust.
+            We've been doing this<br />since 2001.
           </h1>
           <p className="max-w-xl text-[15px] leading-relaxed text-ink-3">
-            iDOC Dental Lab was founded in Cypress, California with a simple belief —
-            that dental practices deserve a lab partner they can rely on, every single case.
+            Not a startup. Not a DSO. A dental lab in Orange County, California —
+            built by technicians, run by people who care whether the case seats right.
           </p>
         </div>
       </section>
@@ -59,25 +59,26 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl grid gap-12 md:grid-cols-2 md:gap-20 items-start">
           <div>
             <h2 className="mb-5 font-serif text-[28px] leading-tight text-ink md:text-[36px]">
-              Southern California&apos;s premier dental lab.
+              A lab that remembers why this work matters.
             </h2>
             <div className="space-y-4 text-[14px] leading-relaxed text-ink-3">
               <p>
-                Since 2001, iDOC has been fabricating dental restorations for practices
-                across Southern California. What started as a small lab with a commitment
-                to craftsmanship has grown into a full-service digital facility serving
-                over 500 dental practices.
+                Our founder used to say: <em>"Denture patients have a right to chew steak too."</em>{" "}
+                That's not a tagline. That's the reason IDOC exists.
               </p>
               <p>
-                We invested in CAD/CAM technology early — before it was standard —
-                because we believed digital precision would set a new bar for what
-                dental labs could deliver. Today, every case we produce runs through
-                an end-to-end digital workflow.
+                When every case is just a number, that patient on the other end of the
+                restoration stops being a person. We started IDOC because we didn't want
+                to work that way.
               </p>
               <p>
-                But technology is only part of the story. The other part is the team
-                of 50 skilled technicians who bring care and expertise to every
-                restoration that leaves our facility.
+                Twenty years later, same belief. We invested in CAD/CAM early, built
+                out full digital workflows, added 3D printing — not to grow faster,
+                but to do better work for the same reason we started.
+              </p>
+              <p>
+                50 technicians. 500+ practices. Every case still goes out the door
+                with someone's name on it.
               </p>
             </div>
           </div>
@@ -88,7 +89,7 @@ export default function AboutPage() {
               { stat: "20+", label: "Years in business" },
               { stat: "500+", label: "Dental practices served" },
               { stat: "50", label: "Skilled technicians" },
-              { stat: "3–5", label: "Day avg. turnaround" },
+              { stat: "<3%", label: "Remake rate" },
             ].map((item) => (
               <div
                 key={item.label}
@@ -111,7 +112,7 @@ export default function AboutPage() {
             What we stand for
           </p>
           <h2 className="mb-10 font-serif text-[32px] text-ink">
-            Our values.
+            How we work.
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
@@ -155,7 +156,7 @@ export default function AboutPage() {
             Our history
           </p>
           <h2 className="mb-10 font-serif text-[32px] text-ink">
-            Milestones.
+            How we got here.
           </h2>
           <div className="relative border-l border-surface-3 pl-8 space-y-8">
             {milestones.map((m) => (
@@ -174,10 +175,10 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl flex flex-col items-center text-center gap-6 md:flex-row md:justify-between md:text-left">
           <div>
             <h2 className="font-serif text-[28px] text-white md:text-[36px]">
-              Join 500+ practices across Southern California.
+              Send us a case. See the difference.
             </h2>
             <p className="mt-2 text-[14px] text-white/50">
-              Free UPS pickup. No contracts. Just great work.
+              Free UPS pickup. No contracts. If it's not right, we remake it.
             </p>
           </div>
           <Link

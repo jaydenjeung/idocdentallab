@@ -33,7 +33,7 @@ export default function Hero() {
                 href="/get-started"
                 className="inline-flex items-center justify-center rounded-full bg-green-700 px-7 py-3 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
               >
-                Send a case
+                Get started
               </Link>
               <Link
                 href="/services"

@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -19,6 +24,7 @@
     background-color: #FAFAF8;
     color: #0F0F0F;
     font-family: "DM Sans", system-ui, sans-serif;
+    overflow-x: hidden;
   }
 
   h1, h2, h3 {
@@ -31,5 +37,9 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
   }
 }

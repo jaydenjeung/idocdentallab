@@ -46,6 +46,18 @@ const sendCaseLinks = [
     label: "Request UPS Pickup",
     sub: "Schedule a free case pickup",
   },
+  {
+    href: "/send-a-case/download-rx",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6"/>
+        <path d="M12 18v-6M9 15l3 3 3-3"/>
+      </svg>
+    ),
+    label: "Download RX",
+    sub: "Lab slips & prescription forms",
+  },
 ];
 
 export default function Navbar() {
@@ -108,13 +120,13 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className="hidden items-center gap-4 md:flex">
           <a
-              href="tel:+1-877-388-4362"
+            href="tel:+1-877-388-4362"
             className="text-sm text-white/30 hover:text-white/60 transition-colors"
           >
             (877) 388-4362
           </a>
 
-           <div className="relative" ref={dropdownRef}>
+          <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-1.5 rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
@@ -215,7 +227,6 @@ export default function Navbar() {
                 Client Login
               </Link>
               <a
-            
                 href="tel:+1-877-388-4362"
                 className="block rounded-lg px-3 py-2.5 text-sm text-white/30 mt-1 border-t border-white/5 pt-3"
               >

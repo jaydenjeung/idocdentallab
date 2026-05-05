@@ -5,9 +5,16 @@ const stats = [
   { value: "5–7",  label: "Day avg. turnaround" },
 ];
 
+const base = [
+  "Tufts University School of Dental Medicine",
+  "UCLA School of Dentistry",
+  "VA Medical Centers",
+  "Pacific Dental Services",
+];
+
 export default function StatsBar() {
   return (
-    <section className="bg-green-900">
+    <section className="bg-green-900 overflow-x-hidden">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((s, i) => (
@@ -25,6 +32,22 @@ export default function StatsBar() {
           ))}
         </div>
       </div>
+
+      {/* Marquee */}
+      <div className="border-t border-white/10 py-3 overflow-x-hidden">
+        <div
+          className="flex whitespace-nowrap"
+          style={{ animation: "marquee 25s linear infinite" }}
+        >
+          {[...base, ...base, ...base, ...base].map((name, i) => (
+            <span key={i} className="inline-flex shrink-0 items-center gap-4 px-6 text-[11px]">
+              <span className="text-white/20 select-none">·</span>
+              <span className="text-white/50">{name}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
     </section>
   );
 }

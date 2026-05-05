@@ -18,25 +18,25 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "iDOC Dental Lab — Precision Dental Prosthetics, Southern California",
-    template: "%s | iDOC Dental Lab",
+    default: "IDOC Dental Lab — Precision Dental Prosthetics",
+    template: "%s | IDOC Dental Lab",
   },
   description:
-    "Full-service dental laboratory in Cypress, CA. In-house CAD/CAM milling, 3D printing, and digital workflows. Serving 500+ dental practices since 2001.",
+    "Full-service dental laboratory in Orange, CA. In-house CAD/CAM milling, 3D printing, and digital workflows. Serving 500+ practices nationwide since 2001.",
   keywords: [
     "dental lab",
     "dental laboratory",
     "CAD/CAM",
     "dental crowns",
     "implant prosthetics",
-    "Southern California dental lab",
-    "Cypress CA dental lab",
+    "California dental lab",
+    "Orange CA dental lab",
   ],
   openGraph: {
-    title: "iDOC Dental Lab",
+    title: "IDOC Dental Lab",
     description: "Precision dental prosthetics. People first.",
     url: "https://idocdentallab.com",
-    siteName: "iDOC Dental Lab",
+    siteName: "IDOC Dental Lab",
     locale: "en_US",
     type: "website",
   },
@@ -49,7 +49,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${dmSerif.variable} ${dmSans.variable}`}>
+      <body className={`${dmSerif.variable} ${dmSans.variable} overflow-x-hidden`}>
         <Navbar />
         {children}
         <Footer />

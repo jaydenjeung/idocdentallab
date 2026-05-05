@@ -32,7 +32,7 @@ export default function Testimonials() {
             What doctors say
           </p>
           <h2 className="font-serif text-[32px] text-ink md:text-[40px]">
-            Trusted by practices<br />across California.
+            Trusted by practices<br />across the U.S.
           </h2>
         </div>
 

@@ -12,16 +12,16 @@ const services = [
     id: "implant",
     number: "01",
     name: "Implant Prosthetics",
-    tagline: "Complete restorations, one flat price.",
-    desc: "Our signature Komplett Bundle covers everything for a complete implant restoration — custom abutment, zirconia or PFM crown, lab analog, and lab screw. No hidden fees, no add-ons.",
-    featured: true,
-    tag: "Most popular",
+    tagline: "Custom restorations for any implant system.",
+    desc: "From single-unit implant crowns to full-arch solutions — every case designed and fabricated to fit your system. FixFree implant fixture available on request.",
+    featured: false,
+    tag: null,
     items: [
       "CAD/CAM custom abutment (any implant system)",
-      "Zirconia or PFM crown — premium material",
-      "Lab analog included",
-      "Lab screw included",
-      "One flat price — no hidden fees",
+      "Zirconia or PFM implant crown",
+      "Screw-retained restorations",
+      "FixFree — implant fixture included on request",
+      "All-on-X Fixed Hybrid (Titanium + Acrylic or Full Zirconia)",
     ],
     turnaround: "5–7 business days",
   },
@@ -41,7 +41,7 @@ const services = [
       "PMMA temporaries",
       "Maryland bridges",
     ],
-    turnaround: "3–5 business days",
+    turnaround: "5–7 business days",
   },
   {
     id: "removable",
@@ -55,7 +55,7 @@ const services = [
       "Full dentures (conventional)",
       "Digital dentures (milled or printed)",
       "Cast partial frameworks",
-      "Flexible partials (Valplast)",
+      "Flexible partials (3D Printed/Valplast)",
       "Immediate dentures",
       "Denture repairs & relines",
     ],
@@ -74,6 +74,7 @@ const services = [
       "Dual-laminate nightguards",
       "Soft sports mouthguards",
       "Custom-fit mouthguards",
+      "Sports guard",
       "Hawley retainers",
       "Essix retainers",
     ],
@@ -100,117 +101,111 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* Komplett Featured */}
+      <section className="bg-surface px-5 pt-12 md:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div id="komplett" className="rounded-3xl border border-green-700 bg-green-900 p-8 md:p-10">
+            <div className="grid gap-8 md:grid-cols-2 md:gap-16">
+              {/* Left */}
+              <div>
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-green-700/30 px-2.5 py-0.5 text-[10px] font-medium text-green-300">
+                    Featured
+                  </span>
+                  <span className="rounded-full bg-green-700/30 px-2.5 py-0.5 text-[10px] font-medium text-green-300">
+                    Most popular
+                  </span>
+                </div>
+                <h2 className="mb-2 font-serif text-[28px] leading-tight text-white md:text-[32px]">
+                  Komplett Bundle
+                </h2>
+                <p className="mb-4 text-[13px] font-medium uppercase tracking-wider text-green-400">
+                  Complete implant restoration, one flat price.
+                </p>
+                <p className="text-[14px] leading-relaxed text-white/60">
+                  Everything you need for a complete implant restoration —
+                  custom abutment, crown, lab analog, and lab screw — in one
+                  simple price. No hidden fees, no add-ons, no surprises.
+                </p>
+                <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-green-600 px-4 py-1.5 text-[12px] text-green-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
+                  Avg. turnaround: 10–12 business days
+                </div>
+              </div>
+
+              {/* Right */}
+              <div>
+                <p className="mb-4 text-[10px] font-medium uppercase tracking-widest text-green-400/60">
+                  What&apos;s included
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "CAD/CAM custom abutment (any implant system)",
+                    "Crown of your choice (Zirconia, PFM, e.max)",
+                    "Lab analog included",
+                    "Lab screw included",
+                    "One flat price — no hidden fees",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 shrink-0 text-green-400">
+                        <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1" fill="rgba(74,222,128,0.1)" />
+                        <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className="text-[14px] text-white/70">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services */}
-      <section className="bg-surface px-5 pb-24 md:px-8">
+      <section className="bg-surface px-5 pb-24 pt-6 md:px-8">
         <div className="mx-auto max-w-6xl space-y-6">
           {services.map((s) => (
             <div
               key={s.id}
               id={s.id}
-              className={`rounded-3xl border p-8 md:p-10 ${
-                s.featured
-                  ? "border-green-700 bg-green-900"
-                  : "border-surface-3 bg-white"
-              }`}
+              className="rounded-3xl border border-surface-3 bg-white p-8 md:p-10"
             >
               <div className="grid gap-8 md:grid-cols-2 md:gap-16">
                 {/* Left */}
                 <div>
-                  <div className="mb-4 flex items-center gap-3">
-                    <span
-                      className={`font-mono text-[11px] ${
-                        s.featured ? "text-green-400" : "text-ink-4"
-                      }`}
-                    >
+                  <div className="mb-4">
+                    <span className="font-mono text-[11px] text-ink-4">
                       {s.number}
                     </span>
-                    {s.tag && (
-                      <span className="rounded-full bg-green-700/30 px-2.5 py-0.5 text-[10px] font-medium text-green-300">
-                        {s.tag}
-                      </span>
-                    )}
                   </div>
-
-                  <h2
-                    className={`mb-2 font-serif text-[28px] leading-tight md:text-[32px] ${
-                      s.featured ? "text-white" : "text-ink"
-                    }`}
-                  >
+                  <h2 className="mb-2 font-serif text-[28px] leading-tight text-ink md:text-[32px]">
                     {s.name}
                   </h2>
-                  <p
-                    className={`mb-4 text-[13px] font-medium uppercase tracking-wider ${
-                      s.featured ? "text-green-400" : "text-green-700"
-                    }`}
-                  >
+                  <p className="mb-4 text-[13px] font-medium uppercase tracking-wider text-green-700">
                     {s.tagline}
                   </p>
-                  <p
-                    className={`text-[14px] leading-relaxed ${
-                      s.featured ? "text-white/60" : "text-ink-3"
-                    }`}
-                  >
+                  <p className="text-[14px] leading-relaxed text-ink-3">
                     {s.desc}
                   </p>
-
-                  <div
-                    className={`mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[12px] ${
-                      s.featured
-                        ? "border-green-600 text-green-300"
-                        : "border-surface-3 text-ink-3"
-                    }`}
-                  >
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        s.featured ? "bg-green-400" : "bg-green-600"
-                      }`}
-                    />
+                  <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-surface-3 px-4 py-1.5 text-[12px] text-ink-3">
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
                     Avg. turnaround: {s.turnaround}
                   </div>
                 </div>
 
                 {/* Right — checklist */}
                 <div>
-                  <p
-                    className={`mb-4 text-[10px] font-medium uppercase tracking-widest ${
-                      s.featured ? "text-green-400/60" : "text-ink-4"
-                    }`}
-                  >
+                  <p className="mb-4 text-[10px] font-medium uppercase tracking-widest text-ink-4">
                     What&apos;s included
                   </p>
                   <ul className="space-y-3">
                     {s.items.map((item) => (
                       <li key={item} className="flex items-start gap-3">
-                        <svg
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          className={`mt-0.5 h-4 w-4 shrink-0 ${
-                            s.featured ? "text-green-400" : "text-green-700"
-                          }`}
-                        >
-                          <circle
-                            cx="8"
-                            cy="8"
-                            r="7"
-                            stroke="currentColor"
-                            strokeWidth="1"
-                            fill={s.featured ? "rgba(74,222,128,0.1)" : "#EDF7F2"}
-                          />
-                          <path
-                            d="M5 8l2 2 4-4"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
+                        <svg viewBox="0 0 16 16" fill="none" className="mt-0.5 h-4 w-4 shrink-0 text-green-700">
+                          <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1" fill="#EDF7F2" />
+                          <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span
-                          className={`text-[14px] ${
-                            s.featured ? "text-white/70" : "text-ink-2"
-                          }`}
-                        >
-                          {item}
-                        </span>
+                        <span className="text-[14px] text-ink-2">{item}</span>
                       </li>
                     ))}
                   </ul>
