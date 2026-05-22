@@ -12,7 +12,7 @@ interface Reel {
   caption?: string;
 }
 
-function ReelsFeed() {
+function ReelsFeed({ maxHeight = 420, showThumbs = true }: { maxHeight?: number; showThumbs?: boolean }) {
   const [reels, setReels] = useState<Reel[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(0);
@@ -29,7 +29,6 @@ function ReelsFeed() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Auto-slide when not playing
   useEffect(() => {
     if (reels.length < 2 || playing) return;
     intervalRef.current = setInterval(() => {
@@ -40,7 +39,6 @@ function ReelsFeed() {
     };
   }, [reels, playing]);
 
-  // Reset playing state when active changes
   useEffect(() => {
     setPlaying(false);
   }, [active]);
@@ -62,7 +60,7 @@ function ReelsFeed() {
       <div className="flex flex-col gap-3 w-full">
         <div
           className="w-full rounded-2xl bg-[#0d1510] border border-white/6 flex items-center justify-center"
-          style={{ aspectRatio: "9/16", maxHeight: 420 }}
+          style={{ aspectRatio: "9/16", maxHeight }}
         >
           <div className="h-6 w-6 rounded-full border-2 border-green-400/40 border-t-green-400 animate-spin" />
         </div>
@@ -70,16 +68,7 @@ function ReelsFeed() {
     );
   }
 
-  if (!reels.length) {
-    return (
-      <div className="aspect-video w-full rounded-2xl bg-[#0d1510] border border-white/6 flex flex-col items-center justify-center gap-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full border border-green-500/40 hover:border-green-400/70 hover:scale-105 cursor-pointer transition-all">
-          <div className="ml-1 h-0 w-0 border-b-[9px] border-t-[9px] border-l-[15px] border-b-transparent border-t-transparent border-l-green-400" />
-        </div>
-        <p className="text-[10px] uppercase tracking-widest text-white/20">Company overview</p>
-      </div>
-    );
-  }
+  if (!reels.length) return null;
 
   const current = reels[active];
   const thumb = current.thumbnail_url || current.media_url;
@@ -89,9 +78,8 @@ function ReelsFeed() {
       {/* Main reel */}
       <div
         className="relative overflow-hidden rounded-2xl border border-white/6 bg-black"
-        style={{ aspectRatio: "9/16", maxHeight: 420 }}
+        style={{ aspectRatio: "9/16", maxHeight }}
       >
-        {/* Video (shown when playing) */}
         {playing ? (
           <video
             ref={videoRef}
@@ -107,17 +95,12 @@ function ReelsFeed() {
           />
         ) : (
           <>
-            {/* Thumbnail */}
             <img
               src={thumb}
               alt={current.caption?.slice(0, 60) || "IDOC Reel"}
               className="h-full w-full object-cover"
             />
-
-            {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-            {/* Play button */}
             <button
               onClick={handlePlay}
               className="absolute inset-0 flex items-center justify-center group"
@@ -126,16 +109,12 @@ function ReelsFeed() {
                 <div className="ml-1 h-0 w-0 border-b-[9px] border-t-[9px] border-l-[16px] border-b-transparent border-t-transparent border-l-white" />
               </div>
             </button>
-
-            {/* Instagram badge */}
             <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur-sm px-2.5 py-1 border border-white/10">
               <svg className="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
               </svg>
               <span className="text-[10px] text-white/80">@idocdentallab</span>
             </div>
-
-            {/* Caption */}
             {current.caption && (
               <div className="absolute bottom-3 left-3 right-3">
                 <p className="text-[11px] text-white/70 line-clamp-2 leading-relaxed">
@@ -147,44 +126,43 @@ function ReelsFeed() {
         )}
       </div>
 
-      {/* Bottom row: thumbnails + instagram link */}
-      <div className="flex items-center gap-2">
-        {/* Thumbnail strip */}
-        <div className="flex flex-1 gap-1.5">
-          {reels.map((reel, i) => (
-            <button
-              key={reel.id}
-              onClick={() => handleThumbClick(i)}
-              className={`relative flex-1 overflow-hidden rounded-lg transition-all duration-300 ${
-                i === active
-                  ? "ring-2 ring-green-400 opacity-100"
-                  : "opacity-40 hover:opacity-70"
-              }`}
-              style={{ aspectRatio: "9/16", maxHeight: 60 }}
-            >
-              <img
-                src={reel.thumbnail_url || reel.media_url}
-                alt=""
-                className="h-full w-full object-cover"
-              />
-            </button>
-          ))}
+      {/* Thumbnails + follow — desktop only */}
+      {showThumbs && (
+        <div className="flex items-center gap-2">
+          <div className="flex flex-1 gap-1.5">
+            {reels.map((reel, i) => (
+              <button
+                key={reel.id}
+                onClick={() => handleThumbClick(i)}
+                className={`relative flex-1 overflow-hidden rounded-lg transition-all duration-300 ${
+                  i === active
+                    ? "ring-2 ring-green-400 opacity-100"
+                    : "opacity-40 hover:opacity-70"
+                }`}
+                style={{ aspectRatio: "9/16", maxHeight: 60 }}
+              >
+                <img
+                  src={reel.thumbnail_url || reel.media_url}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+          <a
+            href="https://www.instagram.com/idocdentallab"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors px-3 py-2 min-w-[56px]"
+            style={{ height: 60 }}
+          >
+            <svg className="h-4 w-4 text-white/60" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+            <span className="text-[9px] text-white/40 leading-none">Follow</span>
+          </a>
         </div>
-
-        {/* Instagram profile link */}
-        <a
-          href="https://www.instagram.com/idocdentallab"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors px-3 py-2 min-w-[56px]"
-          style={{ height: 60 }}
-        >
-          <svg className="h-4 w-4 text-white/60" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-          </svg>
-          <span className="text-[9px] text-white/40 leading-none">Follow</span>
-        </a>
-      </div>
+      )}
     </div>
   );
 }
@@ -231,12 +209,17 @@ export default function Hero() {
                 View services →
               </Link>
             </div>
+
+            {/* Mobile — reel (1개, 풀width, 썸네일 없음) */}
+            <div className="mt-10 md:hidden">
+              <ReelsFeed maxHeight={360} showThumbs={false} />
+            </div>
           </div>
 
-          {/* Right — Instagram Reels */}
+          {/* Right — desktop only */}
           <div className="hidden md:flex items-center justify-center py-16 pl-12">
             <div className="relative w-full max-w-[280px] mx-auto">
-              <ReelsFeed />
+              <ReelsFeed maxHeight={420} showThumbs={true} />
             </div>
           </div>
 
