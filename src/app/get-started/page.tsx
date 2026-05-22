@@ -21,6 +21,7 @@ const serviceOptions = [
 export default function GetStartedPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     practiceName: "",
     doctorName: "",
@@ -41,10 +42,22 @@ export default function GetStartedPage() {
 
   async function handleSubmit() {
     setLoading(true);
-    // Placeholder — Supabase + Resend will be wired here
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    setSubmitted(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error("Failed");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please call us at (877) 388-4362.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (submitted) {
@@ -61,7 +74,7 @@ export default function GetStartedPage() {
           <p className="text-[14px] leading-relaxed text-ink-3">
             We&apos;ll reach out within 1 business day to confirm pickup and case details.
             If you have questions, call us at{" "}
-            <a href="tel:+17145550000" className="text-green-700">(714) 555-0000</a>.
+            <a href="tel:+18773884362" className="text-green-700">(877) 388-4362</a>.
           </p>
         </div>
       </div>
@@ -229,6 +242,11 @@ export default function GetStartedPage() {
               />
             </div>
 
+            {/* Error */}
+            {error && (
+              <p className="text-[13px] text-red-600">{error}</p>
+            )}
+
             {/* Submit */}
             <div className="flex items-center justify-between pt-2">
               <p className="text-[12px] text-ink-3">
@@ -242,6 +260,7 @@ export default function GetStartedPage() {
                 {loading ? "Submitting..." : "Submit case →"}
               </button>
             </div>
+
           </div>
         </div>
       </section>
