@@ -12,7 +12,7 @@ export async function GET() {
   try {
     // Fetch recent media (reels + videos + images)
     const res = await fetch(
-      `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption,timestamp&limit=12&access_token=${TOKEN}`,
+      `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption,timestamp&limit=100&access_token=${TOKEN}`,
       { next: { revalidate: 3600 } }
     );
 
