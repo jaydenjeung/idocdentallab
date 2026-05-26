@@ -54,7 +54,7 @@ const pillars = [
       "Multi-point pre-ship inspection",
       "Shade verification under standardized lighting",
       "Occlusal and marginal fit check",
-      "Under 2% remake rate",
+      "Under 3% remake rate",
     ],
   },
 ];

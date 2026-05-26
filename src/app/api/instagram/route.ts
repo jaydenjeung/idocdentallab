@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 const TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN;
 
-export const revalidate = 3600; // cache 1 hour
+export const revalidate = 300; // 5분
 
 export async function GET() {
   if (!TOKEN) {

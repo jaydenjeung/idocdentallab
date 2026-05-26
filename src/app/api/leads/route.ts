@@ -44,62 +44,62 @@ export async function POST(req: NextRequest) {
 
     // 2. IDOC 어드민 알림 이메일
     await resend.emails.send({
-      from: "IDOC Portal <noreply@idocdentallab.com>",
-      to: "info@idocdentallab.com",
-      subject: `새 케이스 요청 — ${practiceName}`,
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
-          <h2 style="margin: 0 0 24px; font-size: 20px;">새 케이스 요청이 접수되었습니다</h2>
+  from: "IDOC Portal <noreply@idocdentallab.com>",
+  to: "info@idocdentallab.com",
+  subject: `New Case Request — ${practiceName}`,
+  html: `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
+      <h2 style="margin: 0 0 24px; font-size: 20px;">New case request received</h2>
 
-          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666; width: 140px;">Practice</td>
-              <td style="padding: 10px 0; font-weight: 600;">${practiceName}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Doctor</td>
-              <td style="padding: 10px 0;">${doctorName}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Phone</td>
-              <td style="padding: 10px 0;">${phone}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Email</td>
-              <td style="padding: 10px 0;">${email}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Service</td>
-              <td style="padding: 10px 0;">${service}</td>
-            </tr>
-            ${patientName ? `
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Patient</td>
-              <td style="padding: 10px 0;">${patientName}</td>
-            </tr>` : ""}
-            ${dueDate ? `
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Due Date</td>
-              <td style="padding: 10px 0;">${dueDate}</td>
-            </tr>` : ""}
-            ${scanMethod ? `
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 10px 0; color: #666;">Submission</td>
-              <td style="padding: 10px 0;">${scanMethod}</td>
-            </tr>` : ""}
-            ${notes ? `
-            <tr>
-              <td style="padding: 10px 0; color: #666; vertical-align: top;">Notes</td>
-              <td style="padding: 10px 0;">${notes}</td>
-            </tr>` : ""}
-          </table>
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666; width: 140px;">Practice</td>
+          <td style="padding: 10px 0; font-weight: 600;">${practiceName}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Doctor</td>
+          <td style="padding: 10px 0;">${doctorName}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Phone</td>
+          <td style="padding: 10px 0;">${phone}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Email</td>
+          <td style="padding: 10px 0;">${email}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Service</td>
+          <td style="padding: 10px 0;">${service}</td>
+        </tr>
+        ${patientName ? `
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Patient</td>
+          <td style="padding: 10px 0;">${patientName}</td>
+        </tr>` : ""}
+        ${dueDate ? `
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Due Date</td>
+          <td style="padding: 10px 0;">${dueDate}</td>
+        </tr>` : ""}
+        ${scanMethod ? `
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px 0; color: #666;">Submission</td>
+          <td style="padding: 10px 0;">${scanMethod}</td>
+        </tr>` : ""}
+        ${notes ? `
+        <tr>
+          <td style="padding: 10px 0; color: #666; vertical-align: top;">Notes</td>
+          <td style="padding: 10px 0;">${notes}</td>
+        </tr>` : ""}
+      </table>
 
-          <div style="margin-top: 32px; padding: 16px; background: #f9fafb; border-radius: 8px; font-size: 13px; color: #666;">
-            접수 시각: ${new Date().toLocaleString("ko-KR", { timeZone: "America/Los_Angeles" })} (PT)
-          </div>
-        </div>
-      `,
-    });
+      <div style="margin-top: 32px; padding: 16px; background: #f9fafb; border-radius: 8px; font-size: 13px; color: #666;">
+        Received: ${new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" })} (PT)
+      </div>
+    </div>
+  `,
+});
 
     // 3. 치과 확인 이메일
     await resend.emails.send({
