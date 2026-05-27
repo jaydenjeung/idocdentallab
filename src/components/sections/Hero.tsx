@@ -171,7 +171,7 @@ export default function Hero() {
   return (
     <section className="bg-[#0a0f0d]">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <div className="grid min-h-[560px] items-center gap-0 md:grid-cols-2">
+        <div className="grid items-center gap-0 md:grid-cols-[1fr_auto]">
 
           {/* Left — copy */}
           <div className="py-16 md:py-20 md:pr-12 md:border-r md:border-white/5">
@@ -180,7 +180,7 @@ export default function Hero() {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/25 px-3 py-1.5">
               <div className="h-1.5 w-1.5 rounded-full bg-green-400" />
               <span className="text-[10px] font-medium uppercase tracking-widest text-green-400">
-                CDL Certified Full Service Dental Lab
+                NADL/CDL Certified Full Service Dental Lab
               </span>
             </div>
 
@@ -210,16 +210,16 @@ export default function Hero() {
               </Link>
             </div>
 
-            {/* Mobile — reel (1개, 풀width, 썸네일 없음) */}
+            {/* Mobile — reel */}
             <div className="mt-10 md:hidden">
               <ReelsFeed maxHeight={360} showThumbs={false} />
             </div>
           </div>
 
           {/* Right — desktop only */}
-          <div className="hidden md:flex items-center justify-center py-16 pl-12">
-            <div className="relative w-full max-w-[280px] mx-auto">
-              <ReelsFeed maxHeight={420} showThumbs={true} />
+          <div className="hidden md:flex items-center justify-center py-10 pl-12">
+            <div className="w-[300px]">
+              <ReelsFeed maxHeight={560} showThumbs={true} />
             </div>
           </div>
 

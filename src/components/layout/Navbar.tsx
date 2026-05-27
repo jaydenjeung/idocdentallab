@@ -86,11 +86,11 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         scrolled
-          ? "bg-[#0a0f0d]/95 backdrop-blur-sm border-b border-white/5 shadow-lg shadow-black/20"
-          : "bg-[#0a0f0d] border-b border-white/5"
+          ? "bg-[#0a0f0d]/95 backdrop-blur-sm border-b border-white/8 shadow-lg shadow-black/20"
+          : "bg-[#0a0f0d] border-b border-white/8"
       }`}
     >
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 md:px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
 
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -105,12 +105,12 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-white/40 transition-colors hover:text-white/80"
+              className="text-[14px] font-medium text-white/70 transition-colors hover:text-white"
             >
               {l.label}
             </Link>
@@ -118,10 +118,10 @@ export default function Navbar() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden items-center gap-5 md:flex">
           <a
             href="tel:+1-877-388-4362"
-            className="text-sm text-white/30 hover:text-white/60 transition-colors"
+            className="text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors"
           >
             (877) 388-4362
           </a>
@@ -129,7 +129,7 @@ export default function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1.5 rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              className="flex items-center gap-1.5 rounded-full bg-green-700 px-5 py-2.5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
             >
               Send a case
               <svg
@@ -182,30 +182,30 @@ export default function Navbar() {
             aria-label="Toggle menu"
             className="flex flex-col gap-1 p-1"
           >
-            <span className={`block h-0.5 w-5 bg-white/60 transition-transform duration-200 ${open ? "translate-y-1.5 rotate-45" : ""}`} />
-            <span className={`block h-0.5 w-5 bg-white/60 transition-opacity duration-200 ${open ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 w-5 bg-white/60 transition-transform duration-200 ${open ? "-translate-y-1.5 -rotate-45" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-white/70 transition-transform duration-200 ${open ? "translate-y-1.5 rotate-45" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-white/70 transition-opacity duration-200 ${open ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-white/70 transition-transform duration-200 ${open ? "-translate-y-1.5 -rotate-45" : ""}`} />
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-white/5 bg-[#0a0f0d] px-5 pb-4 md:hidden">
+        <div className="border-t border-white/8 bg-[#0a0f0d] px-5 pb-4 md:hidden">
           <nav className="flex flex-col gap-1 pt-2">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm text-white/50 hover:text-white/80 hover:bg-white/5"
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/65 hover:text-white hover:bg-white/5"
               >
                 {l.label}
               </Link>
             ))}
 
-            <div className="mt-2 border-t border-white/5 pt-3">
-              <p className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/20">
+            <div className="mt-2 border-t border-white/8 pt-3">
+              <p className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/25">
                 Send a Case
               </p>
               {sendCaseLinks.map((item) => (
@@ -213,22 +213,22 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-white/50 hover:text-white/80 hover:bg-white/5"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-white/65 hover:text-white hover:bg-white/5"
                 >
-                  <span className="text-green-400/50">{item.icon}</span>
+                  <span className="text-green-400/60">{item.icon}</span>
                   {item.label}
                 </Link>
               ))}
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2.5 text-sm text-white/60 hover:text-white hover:bg-white/5"
+                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/65 hover:text-white hover:bg-white/5"
               >
                 Client Login
               </Link>
               <a
                 href="tel:+1-877-388-4362"
-                className="block rounded-lg px-3 py-2.5 text-sm text-white/30 mt-1 border-t border-white/5 pt-3"
+                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/50 mt-1 border-t border-white/8 pt-3"
               >
                 (877) 388-4362
               </a>
