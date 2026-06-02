@@ -136,15 +136,15 @@ export default function DownloadRxPage() {
               Ready to send your case?
             </h2>
             <p className="mt-1 text-[14px] text-white/50">
-              Free UPS pickup from your office. No phone calls needed.
+              Free pickup — local in OC &amp; nearby, or UPS nationwide.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/send-a-case/ups-pickup"
+              href="/send-a-case/pickup"
               className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:bg-white/10"
             >
-              Request UPS Pickup
+              Request Case Pickup
             </Link>
             <Link
               href="/send-a-case/digital-impression"

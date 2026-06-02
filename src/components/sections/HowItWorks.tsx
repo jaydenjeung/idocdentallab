@@ -2,7 +2,7 @@ const steps = [
   {
     number: "01",
     title: "Request a pickup",
-    desc: "Schedule a free UPS pickup directly from your office. Fill out a quick form and we handle the rest — no phone calls needed.",
+    desc: "Request a free pickup from your office — local service in Orange County and nearby, or schedule UPS nationwide.",
   },
   {
     number: "02",

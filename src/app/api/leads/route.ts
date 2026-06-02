@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
   from: "IDOC Portal <noreply@idocdentallab.com>",
   to: "info@idocdentallab.com",
-  subject: `New Case Request — ${practiceName}`,
+      subject: `${service === "Local Pickup Request" ? "Local Pickup Request" : "New Case Request"} — ${practiceName}`,
   html: `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
       <h2 style="margin: 0 0 24px; font-size: 20px;">New case request received</h2>

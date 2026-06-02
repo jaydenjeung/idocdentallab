@@ -94,7 +94,7 @@ export default function GetStartedPage() {
           </h1>
           <p className="text-[15px] leading-relaxed text-ink-3">
             Fill out the form below and we&apos;ll handle the rest —
-            including free UPS pickup from your office.
+            including free pickup from your office (local or UPS).
           </p>
         </div>
       </section>
@@ -220,7 +220,7 @@ export default function GetStartedPage() {
                   >
                     <option value="">Select...</option>
                     <option value="digital">Digital scan file (upload)</option>
-                    <option value="pickup">Physical impression (UPS pickup)</option>
+                    <option value="pickup">Physical impression (local or UPS pickup)</option>
                     <option value="both">Both</option>
                   </select>
                 </div>

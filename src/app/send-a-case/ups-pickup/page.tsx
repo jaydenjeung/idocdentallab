@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const US_STATES = [
@@ -138,14 +139,20 @@ export default function UPSPickupPage() {
       {/* Hero */}
       <section className="bg-[#0a3d2e] px-6 py-14 md:py-20">
         <div className="max-w-2xl mx-auto">
+          <Link
+            href="/send-a-case/pickup"
+            className="inline-block text-[#4ade80]/80 text-sm mb-4 hover:text-[#4ade80]"
+          >
+            ← Pickup options
+          </Link>
           <p className="text-[#4ade80] text-sm font-medium tracking-widest uppercase mb-3">
             Send a Case
           </p>
           <h1 className="text-white text-3xl md:text-4xl font-bold leading-tight mb-4">
-            Request a UPS Pickup
+            Schedule UPS pickup
           </h1>
           <p className="text-white/70 text-base max-w-lg">
-            Schedule a free UPS pickup from your practice. Fill out the form below and we'll have a driver at your door.
+            Free UPS pickup nationwide. Fill out the form below to schedule online.
           </p>
         </div>
       </section>
@@ -367,7 +374,14 @@ export default function UPSPickupPage() {
           )}
         </button>
 
-        <p className="mt-4 text-center text-xs text-gray-400">
+        <p className="mt-4 text-center text-sm text-gray-500">
+          In Orange County or nearby?{" "}
+          <Link href="/send-a-case/local-pickup" className="text-green-700 font-medium hover:underline">
+            Request local pickup
+          </Link>
+        </p>
+
+        <p className="mt-2 text-center text-xs text-gray-400">
           Need help? Call us at{" "}
           <a href="tel:+18773884362" className="text-green-700 font-medium hover:underline">
             (877) 388-4362

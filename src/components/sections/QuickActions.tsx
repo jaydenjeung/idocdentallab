@@ -27,15 +27,15 @@ const actions = [
     external: false,
   },
   {
-    href: "/send-a-case/ups-pickup",
+    href: "/send-a-case/pickup",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M5 8h14M5 8a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v0a2 2 0 01-2 2M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/>
         <path d="M10 12h4M12 10v4"/>
       </svg>
     ),
-    label: "Request UPS Pickup",
-    description: "Schedule a free case pickup",
+    label: "Request Case Pickup",
+    description: "Local (OC area) or UPS",
     external: false,
   },
   {
