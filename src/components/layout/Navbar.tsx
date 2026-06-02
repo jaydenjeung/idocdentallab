@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { EVIDENT_DENTIST_PORTAL_URL } from "@/lib/portal";
 
 const links = [
   { href: "/services",   label: "Services"   },
@@ -126,6 +127,15 @@ export default function Navbar() {
             (877) 388-4362
           </a>
 
+          <a
+            href={EVIDENT_DENTIST_PORTAL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors"
+          >
+            Dentist login
+          </a>
+
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -219,13 +229,22 @@ export default function Navbar() {
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href="/login"
+              <a
+                href={EVIDENT_DENTIST_PORTAL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/65 hover:text-white hover:bg-white/5"
+                className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-white/65 hover:text-white hover:bg-white/5"
               >
-                Client Login
-              </Link>
+                <span className="text-green-400/60">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
+                    <polyline points="10 17 15 12 10 7"/>
+                    <line x1="15" y1="12" x2="3" y2="12"/>
+                  </svg>
+                </span>
+                Dentist portal (Evident)
+              </a>
               <a
                 href="tel:+1-877-388-4362"
                 className="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/50 mt-1 border-t border-white/8 pt-3"

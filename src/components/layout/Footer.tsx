@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { EVIDENT_DENTIST_PORTAL_URL } from "@/lib/portal";
 
 const nav = [
   {
@@ -20,13 +21,25 @@ const nav = [
       { label: "Get Started", href: "/get-started" },
     ],
   },
+  {
+    title: "For dentists",
+    links: [
+      {
+        label: "Dentist portal (Evident)",
+        href: EVIDENT_DENTIST_PORTAL_URL,
+        external: true,
+      },
+      { label: "Send a case", href: "/send-a-case/pickup" },
+      { label: "Digital impression", href: "/send-a-case/digital-impression" },
+    ],
+  },
 ];
 
 export default function Footer() {
   return (
     <footer className="border-t border-surface-3 bg-green-900 px-5 py-14 md:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-10 md:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-5">
 
           {/* Brand */}
           <div className="md:col-span-2">
@@ -78,12 +91,23 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="text-[13px] text-white/40 transition-colors hover:text-white/70"
-                    >
-                      {l.label}
-                    </Link>
+                    {"external" in l && l.external ? (
+                      <a
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[13px] text-white/40 transition-colors hover:text-white/70"
+                      >
+                        {l.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={l.href}
+                        className="text-[13px] text-white/40 transition-colors hover:text-white/70"
+                      >
+                        {l.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

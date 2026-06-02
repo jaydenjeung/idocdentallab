@@ -1,6 +1,20 @@
 import Link from "next/link";
+import { EVIDENT_DENTIST_PORTAL_URL } from "@/lib/portal";
 
 const actions = [
+  {
+    href: EVIDENT_DENTIST_PORTAL_URL,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+    ),
+    label: "Dentist portal",
+    description: "Sign in · Evident LMS",
+    external: true,
+  },
   {
     href: "/send-a-case/digital-impression",
     icon: (
@@ -59,7 +73,7 @@ export default function QuickActions() {
           Quick Actions
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {actions.map((action) => {
             const Comp = action.external ? "a" : Link;
 
@@ -86,7 +100,11 @@ export default function QuickActions() {
 
                 {/* 화살표 — hover 시 등장 */}
                 <span className="text-[11px] font-medium text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  {action.external ? "Call now →" : "Go →"}
+                  {action.external
+                    ? action.href.startsWith("tel:")
+                      ? "Call now →"
+                      : "Sign in →"
+                    : "Go →"}
                 </span>
               </Comp>
             );

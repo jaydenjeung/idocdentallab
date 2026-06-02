@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
+import { EVIDENT_DENTIST_PORTAL_URL } from '@/lib/portal'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -46,7 +47,23 @@ export default function LoginPage() {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">IDOC Dental Lab</h1>
-          <p className="text-sm text-gray-500 mt-1">Client Portal</p>
+          <p className="text-sm text-gray-500 mt-1">Account sign-in</p>
+        </div>
+
+        <div className="mb-6 rounded-xl border border-green-100 bg-green-50 px-4 py-3 text-sm text-green-900">
+          <p className="font-medium mb-1">Existing Evident customers</p>
+          <p className="text-green-800/90 text-[13px] leading-relaxed">
+            Use the{" "}
+            <a
+              href={EVIDENT_DENTIST_PORTAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline hover:text-green-950"
+            >
+              dentist portal on Evident
+            </a>{" "}
+            to submit cases and track orders — same as before.
+          </p>
         </div>
 
         {error && (
