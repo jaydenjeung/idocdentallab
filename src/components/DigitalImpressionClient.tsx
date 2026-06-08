@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import CaseSubmitForm from "@/components/CaseSubmitForm";
 
 type Scanner = "cerec" | "trios" | "itero" | "medit";
@@ -176,11 +177,19 @@ export default function DigitalImpressionClient({
             files directly to IDOC.
           </p>
           {userId && profile && (
-            <div className="mt-4 inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-2">
-              <span className="text-[#4ade80] text-xs">✓</span>
-              <span className="text-white/80 text-xs font-medium">
-                Logged in as Dr. {profile.full_name}
-              </span>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-2">
+                <span className="text-[#4ade80] text-xs">✓</span>
+                <span className="text-white/80 text-xs font-medium">
+                  Logged in as Dr. {profile.full_name}
+                </span>
+              </div>
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors"
+              >
+                Dashboard →
+              </Link>
             </div>
           )}
         </div>

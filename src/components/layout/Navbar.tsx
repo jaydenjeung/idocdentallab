@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import type { User } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase";
 import { EVIDENT_DENTIST_PORTAL_URL } from "@/lib/portal";
 
 const links = [
@@ -65,7 +67,21 @@ export default function Navbar() {
   const [open,         setOpen]         = useState(false);
   const [scrolled,     setScrolled]     = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user,         setUser]         = useState<User | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -127,13 +143,29 @@ export default function Navbar() {
             (877) 388-4362
           </a>
 
+          {user ? (
+            <Link
+              href="/dashboard"
+              className="text-[13px] font-medium text-white/80 hover:text-white transition-colors"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors"
+            >
+              Client login
+            </Link>
+          )}
+
           <a
             href={EVIDENT_DENTIST_PORTAL_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-[13px] font-medium text-white/55 hover:text-white/90 transition-colors"
           >
-            Dentist login
+            Evident portal
           </a>
 
           <div className="relative" ref={dropdownRef}>
@@ -181,6 +213,14 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <div className="flex items-center gap-2 md:hidden">
+          {user ? (
+            <Link
+              href="/dashboard"
+              className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/90"
+            >
+              Dashboard
+            </Link>
+          ) : null}
           <Link
             href="/send-a-case/digital-impression"
             className="rounded-full bg-green-700 px-4 py-1.5 text-xs font-medium text-white"
@@ -215,6 +255,29 @@ export default function Navbar() {
             ))}
 
             <div className="mt-2 border-t border-white/8 pt-3">
+              {user ? (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-white hover:bg-white/5 mb-1"
+                >
+                  <span className="text-green-400/60">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2"/>
+                      <path d="M3 9h18M9 21V9"/>
+                    </svg>
+                  </span>
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-white/65 hover:text-white hover:bg-white/5 mb-1"
+                >
+                  Client login
+                </Link>
+              )}
               <p className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/25">
                 Send a Case
               </p>
