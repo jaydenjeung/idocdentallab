@@ -1,0 +1,14 @@
+export function getAdminEmails(): string[] {
+  return (
+    process.env.ADMIN_EMAILS ||
+    "info@idocdentallab.com,jayden@idocdentallab.com,haesung@idocdentallab.com"
+  )
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+export function isAdminEmail(email: string | undefined | null): boolean {
+  if (!email) return false;
+  return getAdminEmails().includes(email.toLowerCase());
+}
