@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { createClient } from "@/lib/supabase";
+import { useState } from "react";
+import CaseSubmitForm from "@/components/CaseSubmitForm";
 
 type Scanner = "cerec" | "trios" | "itero" | "medit";
 
@@ -115,28 +115,6 @@ const scanners: Record<Scanner, ScannerData> = {
 
 const scannerOrder: Scanner[] = ["cerec", "trios", "itero", "medit"];
 
-const serviceOptions = [
-  "Crown & Bridge — Zirconia",
-  "Crown & Bridge — e.max",
-  "Crown & Bridge — PFM",
-  "Crown & Bridge — PMMA Temporary",
-  "Implant Prosthetics (Komplett Bundle)",
-  "Full Denture",
-  "Partial Denture",
-  "Nightguard",
-  "Mouthguard",
-  "Retainer",
-  "Other",
-];
-
-interface CaseForm {
-  patientInitials: string;
-  serviceType: string;
-  toothNumbers: string;
-  dueDate: string;
-  notes: string;
-}
-
 interface Profile {
   full_name?: string;
   practice_name?: string;
@@ -152,126 +130,10 @@ export default function DigitalImpressionClient({
   const [mode, setMode] = useState<"scanner" | "upload">("scanner");
   const [active, setActive] = useState<Scanner>("cerec");
   const [openStep, setOpenStep] = useState<number | null>(null);
-
-  // Form state
-  const [caseForm, setCaseForm] = useState<CaseForm>({
-    patientInitials: "",
-    serviceType: "",
-    toothNumbers: "",
-    dueDate: "",
-    notes: "",
-  });
-
-  // File state — selected but NOT yet uploaded
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Submit state
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [formKey, setFormKey] = useState(0);
 
   const data = scanners[active];
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    setSelectedFiles((prev) => [...prev, ...Array.from(files)]);
-    // Reset input so same file can be re-selected if needed
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const removeFile = (index: number) => {
-    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = async () => {
-    if (!userId) return;
-    if (!caseForm.patientInitials || !caseForm.serviceType) {
-      setSubmitError("Please fill in patient initials and service type.");
-      return;
-    }
-    if (selectedFiles.length === 0) {
-      setSubmitError("Please attach at least one scan file.");
-      return;
-    }
-
-    setSubmitting(true);
-    setSubmitError("");
-
-    const supabase = createClient();
-    const uploadedPaths: string[] = [];
-    const names: string[] = [];
-
-    // 1. Upload files to storage
-    for (const file of selectedFiles) {
-      const path = `${userId}/${Date.now()}_${file.name}`;
-      const { error } = await supabase.storage
-        .from("clinic-uploads")
-        .upload(path, file);
-      if (error) {
-        setSubmitError(`Upload failed for ${file.name}: ${error.message}`);
-        setSubmitting(false);
-        return;
-      }
-      uploadedPaths.push(path);
-      names.push(file.name);
-    }
-
-    // 2. Save case record to DB
-    const { error: dbError } = await supabase.from("scan_uploads").insert({
-      user_id: userId,
-      practice_name: profile?.practice_name || null,
-      doctor_name: profile?.full_name || null,
-      patient_initials: caseForm.patientInitials,
-      service_type: caseForm.serviceType,
-      tooth_numbers: caseForm.toothNumbers || null,
-      due_date: caseForm.dueDate || null,
-      notes: caseForm.notes || null,
-      file_paths: uploadedPaths,
-      file_names: names,
-      status: "pending",
-    });
-
-    if (dbError) {
-      setSubmitError("Files uploaded but failed to save case info: " + dbError.message);
-      setSubmitting(false);
-      return;
-    }
-
-    // 3. Notify lab team
-    const notifyRes = await fetch("/api/scan-upload-notify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        source: "digital-impression",
-        practiceName: profile?.practice_name,
-        doctorName: profile?.full_name,
-        patientInitials: caseForm.patientInitials,
-        serviceType: caseForm.serviceType,
-        toothNumbers: caseForm.toothNumbers,
-        dueDate: caseForm.dueDate,
-        notes: caseForm.notes,
-        fileNames: names,
-      }),
-    });
-
-    if (!notifyRes.ok) {
-      console.error("Notification email failed");
-    }
-
-    // 4. Done
-    setSubmitting(false);
-    setSubmitSuccess(true);
-    setSelectedFiles([]);
-    setCaseForm({
-      patientInitials: "",
-      serviceType: "",
-      toothNumbers: "",
-      dueDate: "",
-      notes: "",
-    });
-  };
 
   if (submitSuccess) {
     return (
@@ -287,7 +149,10 @@ export default function DigitalImpressionClient({
             Your files have been received. The IDOC team will follow up with you shortly.
           </p>
           <button
-            onClick={() => setSubmitSuccess(false)}
+            onClick={() => {
+              setSubmitSuccess(false);
+              setFormKey((k) => k + 1);
+            }}
             className="inline-flex items-center gap-2 bg-[#16a34a] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#15803d] transition-colors"
           >
             Submit another case
@@ -441,133 +306,15 @@ export default function DigitalImpressionClient({
         {mode === "upload" && (
           <>
             {userId ? (
-              <div className="rounded-2xl border border-[#16a34a]/30 bg-[#f0fdf4] p-6">
-                <p className="text-sm font-semibold text-[#166534] mb-5">
-                  Fill in the case details and attach your scan files, then submit.
-                </p>
-
-                {/* Case info form */}
-                <div className="grid grid-cols-2 gap-3 mb-5">
-                  <div className="space-y-1">
-                    <label className="block text-xs font-medium text-[#166534]">
-                      Patient initials <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      value={caseForm.patientInitials}
-                      onChange={(e) => setCaseForm((p) => ({ ...p, patientInitials: e.target.value }))}
-                      placeholder="J.S."
-                      className="w-full border border-[#16a34a]/30 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-[#16a34a]"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-xs font-medium text-[#166534]">
-                      Service type <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={caseForm.serviceType}
-                      onChange={(e) => setCaseForm((p) => ({ ...p, serviceType: e.target.value }))}
-                      className="w-full border border-[#16a34a]/30 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-[#16a34a]"
-                    >
-                      <option value="">Select...</option>
-                      {serviceOptions.map((s) => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-xs font-medium text-[#166534]">Tooth numbers</label>
-                    <input
-                      value={caseForm.toothNumbers}
-                      onChange={(e) => setCaseForm((p) => ({ ...p, toothNumbers: e.target.value }))}
-                      placeholder="#3, #14"
-                      className="w-full border border-[#16a34a]/30 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-[#16a34a]"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-xs font-medium text-[#166534]">Due date</label>
-                    <input
-                      type="date"
-                      value={caseForm.dueDate}
-                      onChange={(e) => setCaseForm((p) => ({ ...p, dueDate: e.target.value }))}
-                      className="w-full border border-[#16a34a]/30 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-[#16a34a]"
-                    />
-                  </div>
-                  <div className="space-y-1 col-span-2">
-                    <label className="block text-xs font-medium text-[#166534]">Notes</label>
-                    <textarea
-                      value={caseForm.notes}
-                      onChange={(e) => setCaseForm((p) => ({ ...p, notes: e.target.value }))}
-                      placeholder="Shade, special instructions, implant system..."
-                      rows={2}
-                      className="w-full border border-[#16a34a]/30 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-[#16a34a] resize-none"
-                    />
-                  </div>
-                </div>
-
-                {/* File drop zone */}
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-[#16a34a]/30 rounded-xl p-5 text-center cursor-pointer hover:border-[#16a34a] hover:bg-[#dcfce7]/30 transition-colors mb-3"
-                >
-                  <p className="text-sm text-[#166534] font-medium">Click to attach files</p>
-                  <p className="text-xs text-[#166534]/60 mt-1">STL · DCM · ZIP · PLY · OBJ</p>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    accept=".stl,.dcm,.zip,.ply,.obj,.3ds"
-                    onChange={handleFileSelect}
-                    className="hidden"
-                  />
-                </div>
-
-                {/* Selected files list */}
-                {selectedFiles.length > 0 && (
-                  <div className="mb-4 space-y-2">
-                    {selectedFiles.map((file, i) => (
-                      <div key={i} className="flex items-center justify-between bg-white border border-[#16a34a]/20 rounded-lg px-3 py-2">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <span className="text-[#16a34a] text-xs">📄</span>
-                          <span className="text-xs text-gray-700 truncate">{file.name}</span>
-                          <span className="text-xs text-gray-400 flex-shrink-0">
-                            ({(file.size / 1024 / 1024).toFixed(1)} MB)
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => removeFile(i)}
-                          className="ml-2 flex-shrink-0 text-gray-400 hover:text-red-500 transition-colors text-xs font-bold"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Error */}
-                {submitError && (
-                  <div className="mb-3 p-3 bg-red-50 border border-red-100 rounded-lg text-xs text-red-600">
-                    {submitError}
-                  </div>
-                )}
-
-                {/* Submit button */}
-                <button
-                  onClick={handleSubmit}
-                  disabled={submitting || !caseForm.patientInitials || !caseForm.serviceType || selectedFiles.length === 0}
-                  className="w-full bg-[#16a34a] text-white text-sm font-semibold py-3 rounded-xl hover:bg-[#15803d] transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {submitting ? (
-                    <>
-                      <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                      </svg>
-                      Uploading & submitting...
-                    </>
-                  ) : (
-                    `Submit case${selectedFiles.length > 0 ? ` (${selectedFiles.length} file${selectedFiles.length > 1 ? "s" : ""})` : ""}`
-                  )}
-                </button>
-              </div>
+              <CaseSubmitForm
+                key={formKey}
+                userId={userId}
+                doctorName={profile?.full_name || ""}
+                practiceName={profile?.practice_name}
+                notifySource="digital-impression"
+                requireFiles
+                onSuccess={() => setSubmitSuccess(true)}
+              />
             ) : (
               /* Non-logged-in teaser */
               <div className="rounded-2xl border border-dashed border-[#16a34a]/40 bg-[#f0fdf4] px-6 py-8 flex flex-col sm:flex-row sm:items-center gap-4">

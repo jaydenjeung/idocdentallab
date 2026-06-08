@@ -9,11 +9,20 @@ const SHADES = ['A1', 'A2', 'A3', 'A3.5', 'A4', 'B1', 'B2', 'B3', 'C1', 'C2', 'D
 const UPPER_TEETH = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
 const LOWER_TEETH = [32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17]
 
-export default function CaseSubmitForm({ userId, doctorName, practiceName, onSuccess }: { 
+export default function CaseSubmitForm({
+  userId,
+  doctorName,
+  practiceName,
+  onSuccess,
+  notifySource = 'client-portal',
+  requireFiles = false,
+}: {
   userId: string
   doctorName: string
   practiceName?: string
-  onSuccess: () => void 
+  onSuccess: () => void
+  notifySource?: 'client-portal' | 'digital-impression'
+  requireFiles?: boolean
 }) {
   const [step, setStep] = useState<'form' | 'sign'>('form')
   const [loading, setLoading] = useState(false)
@@ -87,6 +96,10 @@ export default function CaseSubmitForm({ userId, doctorName, practiceName, onSuc
       setError('Please select at least one tooth number.')
       return
     }
+    if (requireFiles && form.file_paths.length === 0) {
+      setError('Please attach at least one scan file.')
+      return
+    }
     setError('')
     setStep('sign')
   }
@@ -130,7 +143,7 @@ export default function CaseSubmitForm({ userId, doctorName, practiceName, onSuc
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        source: 'client-portal',
+        source: notifySource,
         practiceName,
         doctorName,
         patientName: form.patient_name,
