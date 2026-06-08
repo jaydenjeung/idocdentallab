@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
+import { isAdminEmail } from '@/lib/admin'
 import LogoutButton from '@/components/LogoutButton'
 import DashboardClient from '@/components/DashboardClient'
 
@@ -37,13 +39,28 @@ export default async function DashboardPage() {
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-10">
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900">
-            Welcome, Dr. {profile?.full_name}
-          </h2>
-          <p className="text-sm text-gray-500 mt-1">{profile?.practice_name}</p>
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Welcome, Dr. {profile?.full_name}
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">{profile?.practice_name}</p>
+          </div>
+          {isAdminEmail(user.email) && (
+            <Link
+              href="/admin/scans"
+              className="inline-flex w-fit items-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:border-green-600 hover:text-green-800"
+            >
+              Admin: scan downloads →
+            </Link>
+          )}
         </div>
-        <DashboardClient userId={user.id} doctorName={profile?.full_name || ''} initialCases={cases || []} />
+        <DashboardClient
+          userId={user.id}
+          doctorName={profile?.full_name || ''}
+          practiceName={profile?.practice_name}
+          initialCases={cases || []}
+        />
       </main>
     </div>
   )

@@ -22,7 +22,7 @@ const STATUS_COLORS: Record<string, string> = {
   shipped: 'bg-purple-100 text-purple-700',
 }
 
-export default function DashboardClient({ userId, doctorName, initialCases }: { userId: string, doctorName: string, initialCases: Case[] }) {
+export default function DashboardClient({ userId, doctorName, practiceName, initialCases }: { userId: string, doctorName: string, practiceName?: string, initialCases: Case[] }) {
   const [view, setView] = useState<'cases' | 'new'>('cases')
   const [cases, setCases] = useState<Case[]>(initialCases)
 
@@ -54,7 +54,7 @@ export default function DashboardClient({ userId, doctorName, initialCases }: { 
       </div>
 
       {view === 'new' ? (
-       <CaseSubmitForm userId={userId} doctorName={doctorName} onSuccess={handleSuccess} />
+       <CaseSubmitForm userId={userId} doctorName={doctorName} practiceName={practiceName} onSuccess={handleSuccess} />
       ) : (
         <div className="bg-white rounded-xl border border-gray-100">
           {cases.length === 0 ? (

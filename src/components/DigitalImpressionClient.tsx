@@ -239,11 +239,12 @@ export default function DigitalImpressionClient({
       return;
     }
 
-    // 3. Send notification email
-    await fetch("/api/scan-upload-notify", {
+    // 3. Notify lab team
+    const notifyRes = await fetch("/api/scan-upload-notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        source: "digital-impression",
         practiceName: profile?.practice_name,
         doctorName: profile?.full_name,
         patientInitials: caseForm.patientInitials,
@@ -254,6 +255,10 @@ export default function DigitalImpressionClient({
         fileNames: names,
       }),
     });
+
+    if (!notifyRes.ok) {
+      console.error("Notification email failed");
+    }
 
     // 4. Done
     setSubmitting(false);
