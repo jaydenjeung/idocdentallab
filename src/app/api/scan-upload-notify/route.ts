@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { getNotificationEmails } from "@/lib/notifications";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
-const ADMIN_EMAIL = "info@idocdentallab.com";
 
 function row(label: string, value: string | undefined | null) {
   if (!value) return "";
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     await resend.emails.send({
       from: "IDOC Portal <noreply@idocdentallab.com>",
-      to: ADMIN_EMAIL,
+      to: getNotificationEmails(),
       subject: `New scan upload — ${practice}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">

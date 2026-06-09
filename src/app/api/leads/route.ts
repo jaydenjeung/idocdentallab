@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { getNotificationEmails } from "@/lib/notifications";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
     // 2. IDOC 어드민 알림 이메일
     await resend.emails.send({
   from: "IDOC Portal <noreply@idocdentallab.com>",
-  to: "info@idocdentallab.com",
+  to: getNotificationEmails(),
       subject: `${service === "Local Pickup Request" ? "Local Pickup Request" : "New Case Request"} — ${practiceName}`,
   html: `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
