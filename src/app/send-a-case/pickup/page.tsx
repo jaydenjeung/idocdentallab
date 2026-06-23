@@ -4,9 +4,9 @@ const options = [
   {
     href: "/send-a-case/local-pickup",
     title: "Local pickup",
-    badge: "Orange County & nearby",
+    badge: "Southern California only",
     description:
-      "Request a pickup from your office. Our team will confirm and send our driver or a local courier — often same or next business day.",
+      "Request a pickup from your office in Southern California. Our team will confirm and send our driver or a local courier — often same or next business day.",
     cta: "Request local pickup",
   },
   {
@@ -14,7 +14,7 @@ const options = [
     title: "UPS pickup",
     badge: "Nationwide",
     description:
-      "Schedule a free UPS pickup online. Best if you're outside our local service area.",
+      "Schedule a free UPS pickup online. For practices outside Southern California.",
     cta: "Schedule UPS pickup",
   },
 ];
@@ -31,13 +31,23 @@ export default function PickupHubPage() {
             Request a case pickup
           </h1>
           <p className="text-white/70 text-base max-w-xl">
-            Free pickup from your practice. Choose local service if you&apos;re in Orange
-            County or nearby — otherwise schedule UPS.
+            Free pickup from your practice. Local pickup is available in Southern California
+            only — if you&apos;re outside SoCal, please schedule UPS pickup.
           </p>
         </div>
       </section>
 
       <section className="max-w-3xl mx-auto px-4 py-10 md:py-14">
+        <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900">
+          <strong className="font-semibold">Service area:</strong> Local pickup is available
+          for practices in <strong className="font-semibold">Southern California only</strong>.
+          Practices in all other regions should use{" "}
+          <Link href="/send-a-case/ups-pickup" className="font-medium text-green-800 underline hover:text-green-900">
+            UPS pickup
+          </Link>
+          .
+        </div>
+
         <div className="grid gap-5 sm:grid-cols-2">
           {options.map((opt) => (
             <Link

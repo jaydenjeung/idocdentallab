@@ -375,7 +375,7 @@ export default function UPSPickupPage() {
         </button>
 
         <p className="mt-4 text-center text-sm text-gray-500">
-          In Orange County or nearby?{" "}
+          In Southern California?{" "}
           <Link href="/send-a-case/local-pickup" className="text-green-700 font-medium hover:underline">
             Request local pickup
           </Link>

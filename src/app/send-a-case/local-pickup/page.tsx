@@ -115,13 +115,22 @@ export default function LocalPickupPage() {
             Request local pickup
           </h1>
           <p className="text-white/70 text-base max-w-lg">
-            For Orange County and nearby practices. Submit your details and we&apos;ll call or
-            email to confirm — we handle scheduling from there.
+            Available for practices in Southern California only. Submit your details and
+            we&apos;ll call or email to confirm — we handle scheduling from there.
           </p>
         </div>
       </section>
 
       <section className="max-w-2xl mx-auto px-4 py-10">
+        <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900">
+          <strong className="font-semibold">Southern California only.</strong> Local pickup is
+          not available outside SoCal. If your practice is in another region, please{" "}
+          <Link href="/send-a-case/ups-pickup" className="font-medium text-green-800 underline hover:text-green-900">
+            schedule UPS pickup
+          </Link>{" "}
+          instead.
+        </div>
+
         <div className="mb-8">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
             Practice information
@@ -276,7 +285,7 @@ export default function LocalPickupPage() {
         </button>
 
         <p className="mt-6 text-center text-sm text-gray-500">
-          Outside Orange County?{" "}
+          Outside Southern California?{" "}
           <Link href="/send-a-case/ups-pickup" className="text-green-700 font-medium hover:underline">
             Schedule UPS pickup
           </Link>

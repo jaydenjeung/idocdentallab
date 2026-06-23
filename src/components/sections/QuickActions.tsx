@@ -49,7 +49,7 @@ const actions = [
       </svg>
     ),
     label: "Request Case Pickup",
-    description: "Local (OC area) or UPS",
+    description: "SoCal local or UPS nationwide",
     external: false,
   },
   {

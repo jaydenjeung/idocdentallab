@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SupplyRequestForm from "@/components/SupplyRequestForm";
 
 export const metadata: Metadata = {
   title: "Download RX | IDOC Dental Lab",
@@ -30,8 +31,9 @@ export default function DownloadRxPage() {
             <div className="w-full md:w-[420px] shrink-0">
               <div className="overflow-hidden rounded-2xl border border-surface-3 bg-surface">
                 <iframe
-                  src="/idoc-lab-slip.pdf"
-                  className="h-[540px] w-full"
+                  src="/idoc-lab-slip.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                  className="h-[640px] w-full border-0 md:h-[800px]"
+                  scrolling="no"
                   title="IDOC Universal Lab Slip preview"
                 />
               </div>
@@ -93,6 +95,8 @@ export default function DownloadRxPage() {
                 </a>{" "}
                 — our CS team picks up.
               </p>
+
+              <SupplyRequestForm />
             </div>
           </div>
         </div>

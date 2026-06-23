@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
-import { getNotificationEmails } from "@/lib/notifications";
+import { getNotificationEmails, getPickupNotificationEmails } from "@/lib/notifications";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -43,14 +43,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "DB error" }, { status: 500 });
     }
 
+    const isLocalPickup = service === "Local Pickup Request";
+    const isSupplyRequest = service === "Supply Request";
+
+    const adminSubject = isLocalPickup
+      ? `Local Pickup Request — ${practiceName}`
+      : isSupplyRequest
+        ? `Supply Request — ${practiceName}`
+        : `New Case Request — ${practiceName}`;
+
+    const adminHeading = isSupplyRequest
+      ? "New supply request received"
+      : "New case request received";
+
     // 2. IDOC 어드민 알림 이메일
     await resend.emails.send({
   from: "IDOC Portal <noreply@idocdentallab.com>",
-  to: getNotificationEmails(),
-      subject: `${service === "Local Pickup Request" ? "Local Pickup Request" : "New Case Request"} — ${practiceName}`,
+  to: isLocalPickup ? getPickupNotificationEmails() : getNotificationEmails(),
+      subject: adminSubject,
   html: `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
-      <h2 style="margin: 0 0 24px; font-size: 20px;">New case request received</h2>
+      <h2 style="margin: 0 0 24px; font-size: 20px;">${adminHeading}</h2>
 
       <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
         <tr style="border-bottom: 1px solid #eee;">
@@ -103,19 +116,32 @@ export async function POST(req: NextRequest) {
 });
 
     // 3. 치과 확인 이메일
+    const confirmSubject = isSupplyRequest
+      ? "Supply request received — IDOC Dental Lab"
+      : "Case request received — IDOC Dental Lab";
+
+    const confirmHeading = isSupplyRequest
+      ? "We received your supply request."
+      : "We received your case request.";
+
+    const confirmBody = isSupplyRequest
+      ? `Hi ${doctorName}, we'll ship your requested supplies to your practice. Our team will reach out if we need any additional details.`
+      : `Hi ${doctorName}, we'll reach out within 1 business day to confirm pickup and case details.`;
+
     await resend.emails.send({
       from: "IDOC Dental Lab <noreply@idocdentallab.com>",
       to: email,
-      subject: "Case request received — IDOC Dental Lab",
+      subject: confirmSubject,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
-          <h2 style="margin: 0 0 8px; font-size: 20px;">We received your case request.</h2>
+          <h2 style="margin: 0 0 8px; font-size: 20px;">${confirmHeading}</h2>
           <p style="color: #666; font-size: 14px; margin: 0 0 24px;">
-            Hi ${doctorName}, we'll reach out within 1 business day to confirm pickup and case details.
+            ${confirmBody}
           </p>
 
           <div style="padding: 20px; background: #f9fafb; border-radius: 8px; font-size: 14px; margin-bottom: 24px;">
             <p style="margin: 0 0 8px;"><strong>Service:</strong> ${service}</p>
+            ${scanMethod ? `<p style="margin: 0 0 8px;"><strong>Items:</strong> ${scanMethod}</p>` : ""}
             ${patientName ? `<p style="margin: 0 0 8px;"><strong>Patient:</strong> ${patientName}</p>` : ""}
             ${dueDate ? `<p style="margin: 0;"><strong>Requested due date:</strong> ${dueDate}</p>` : ""}
           </div>

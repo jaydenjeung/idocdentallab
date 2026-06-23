@@ -8,3 +8,13 @@ export function getNotificationEmails(): string[] {
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
 }
+
+const PICKUP_EXTRA_RECIPIENTS = [
+  "taniag@idocdentallab.com",
+  "crystald@idocdentallab.com",
+];
+
+/** Pickup requests also notify these inboxes in addition to getNotificationEmails(). */
+export function getPickupNotificationEmails(): string[] {
+  return [...new Set([...getNotificationEmails(), ...PICKUP_EXTRA_RECIPIENTS])];
+}

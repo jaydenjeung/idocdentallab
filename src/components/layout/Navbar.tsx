@@ -47,7 +47,7 @@ const sendCaseLinks = [
       </svg>
     ),
     label: "Request Case Pickup",
-    sub: "Local (OC area) or UPS nationwide",
+    sub: "SoCal local or UPS nationwide",
   },
   {
     href: "/send-a-case/download-rx",
