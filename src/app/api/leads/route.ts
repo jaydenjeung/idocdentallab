@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
-import { getNotificationEmails, getPickupNotificationEmails } from "@/lib/notifications";
+import {
+  getNotificationEmails,
+  getPickupNotificationEmails,
+  getSupplyNotificationEmails,
+} from "@/lib/notifications";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -59,7 +63,11 @@ export async function POST(req: NextRequest) {
     // 2. IDOC 어드민 알림 이메일
     await resend.emails.send({
   from: "IDOC Portal <noreply@idocdentallab.com>",
-  to: isLocalPickup ? getPickupNotificationEmails() : getNotificationEmails(),
+  to: isLocalPickup
+    ? getPickupNotificationEmails()
+    : isSupplyRequest
+      ? getSupplyNotificationEmails()
+      : getNotificationEmails(),
       subject: adminSubject,
   html: `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">

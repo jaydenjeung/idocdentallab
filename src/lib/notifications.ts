@@ -9,12 +9,17 @@ export function getNotificationEmails(): string[] {
     .filter(Boolean);
 }
 
-const PICKUP_EXTRA_RECIPIENTS = [
+const ADDITIONAL_TEAM_RECIPIENTS = [
   "taniag@idocdentallab.com",
   "crystald@idocdentallab.com",
 ];
 
+/** Supply requests also notify these inboxes in addition to getNotificationEmails(). */
+export function getSupplyNotificationEmails(): string[] {
+  return [...new Set([...getNotificationEmails(), ...ADDITIONAL_TEAM_RECIPIENTS])];
+}
+
 /** Pickup requests also notify these inboxes in addition to getNotificationEmails(). */
 export function getPickupNotificationEmails(): string[] {
-  return [...new Set([...getNotificationEmails(), ...PICKUP_EXTRA_RECIPIENTS])];
+  return [...new Set([...getNotificationEmails(), ...ADDITIONAL_TEAM_RECIPIENTS])];
 }
