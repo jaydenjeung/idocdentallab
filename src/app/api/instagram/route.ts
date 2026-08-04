@@ -1,18 +1,19 @@
 import { NextResponse } from "next/server";
+import { getInstagramAccessToken } from "@/lib/instagram-token";
 
-const TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN;
-
-export const revalidate = 300; // 5분
+export const revalidate = 300; // 5 minutes
 
 export async function GET() {
-  if (!TOKEN) {
+  const token = await getInstagramAccessToken();
+
+  if (!token) {
     return NextResponse.json({ error: "No token" }, { status: 500 });
   }
 
   try {
     // Fetch recent media (reels + videos + images)
     const res = await fetch(
-      `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption,timestamp&limit=100&access_token=${TOKEN}`,
+      `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption,timestamp&limit=100&access_token=${token}`,
       { next: { revalidate: 3600 } }
     );
 
