@@ -2,26 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const WORK_REEL_IDS = [
-  "18079037333184498", // All-on-4 zirconia bridge final delivery
-  "18062508077552253", // Locator overdenture digital workflow
-  "18052021313670713", // Full workflow: designing → sintering
-  "18320316910170297", // All-on-6 zirconia final result
-  "18297914110253749", // Titanium overdenture final result
-  "17912939553247053", // Day in the life: Jesus (dentures)
-  "18101069179825671", // 3D printed partial denture
-  "17963375531928740", // Perfit OVIS CAD/CAM 10-min crown
-  "17900973324194662", // How a crown is made
-  "17881701441288748", // Day in the life: Max (model department)
-  "17985818723893301", // Locator overdenture in action
-  "18070628909144715", // Full zirconia All-on-4 tissue buildup
-  "17944468008102638", // What happens after you send a case
-  "18082228558944143", // Denture workshop
-  "17925254940158052", // Diagnostic wax-up: nesting → milling
-  "18078408929571921", // Sports mouthguard ASMR
-  "18114288406655665", // 4 types of dentures
-  "18117541504664895", // Night guard ASMR
-];
+const GALLERY_LIMIT = 30;
 
 interface Reel {
   id: string;
@@ -33,6 +14,7 @@ interface Reel {
 function ReelCard({ reel }: { reel: Reel }) {
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const thumb = reel.thumbnail_url || reel.media_url;
 
   const handlePlay = () => {
     setPlaying(true);
@@ -54,9 +36,9 @@ function ReelCard({ reel }: { reel: Reel }) {
           />
         ) : (
           <>
-            {reel.thumbnail_url && (
+            {thumb && (
               <img
-                src={reel.thumbnail_url}
+                src={thumb}
                 alt={reel.caption?.slice(0, 60) || "IDOC case"}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -101,13 +83,8 @@ export default function GalleryReels() {
     fetch("/api/instagram")
       .then((r) => r.json())
       .then((data) => {
-        const filtered = (data.reels || []).filter((r: Reel) =>
-          WORK_REEL_IDS.includes(r.id)
-        );
-        const ordered = WORK_REEL_IDS
-          .map((id) => filtered.find((r: Reel) => r.id === id))
-          .filter(Boolean) as Reel[];
-        setReels(ordered);
+        // Instagram Graph API returns newest first — show latest videos as they post
+        setReels((data.reels || []).slice(0, GALLERY_LIMIT));
       })
       .finally(() => setLoading(false));
   }, []);
