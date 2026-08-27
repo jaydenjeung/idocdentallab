@@ -31,6 +31,7 @@ const nav = [
       },
       { label: "Send a case", href: "/send-a-case/pickup" },
       { label: "Digital impression", href: "/send-a-case/digital-impression" },
+      { label: "Material information", href: "/materials" },
     ],
   },
 ];
