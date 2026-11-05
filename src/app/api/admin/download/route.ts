@@ -6,8 +6,10 @@ import { fileNameFromPath } from "@/lib/scan-files";
 const BUCKET = "clinic-uploads";
 
 function isValidStoragePath(path: string): boolean {
-  if (!path || path.includes("..") || path.startsWith("/")) return false;
-  return /^[a-zA-Z0-9_\-./]+$/.test(path);
+  if (!path || path.length > 1024) return false;
+  if (path.startsWith("/") || path.includes("\\") || /[\u0000-\u001f\u007f]/.test(path)) return false;
+  const parts = path.split("/");
+  return parts.every((part) => part.length > 0 && part !== "." && part !== "..");
 }
 
 export async function GET(req: NextRequest) {
