@@ -40,8 +40,22 @@ export default function LoginForm() {
     }
 
     const next = searchParams.get('next')
-    const dest =
-      next && next.startsWith('/') && !next.startsWith('//') ? next : '/dashboard'
+    const requested =
+      next && next.startsWith('/') && !next.startsWith('//') ? next : ''
+
+    let dest = '/dashboard'
+    if (!requested) {
+      try {
+        const res = await fetch('/api/auth/home')
+        const data = await res.json()
+        if (data.path && data.path !== '/login') dest = data.path
+      } catch {
+        dest = '/dashboard'
+      }
+    } else {
+      dest = requested
+    }
+
     router.push(dest)
     router.refresh()
   }
@@ -51,7 +65,7 @@ export default function LoginForm() {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">IDOC Dental Lab</h1>
-          <p className="text-sm text-gray-500 mt-1">Account sign-in</p>
+          <p className="text-sm text-gray-500 mt-1">Sign in to view your cases</p>
         </div>
 
         <div className="mb-6 rounded-xl border border-green-100 bg-green-50 px-4 py-3 text-sm text-green-900">

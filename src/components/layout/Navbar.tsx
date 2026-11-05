@@ -68,6 +68,7 @@ export default function Navbar() {
   const [scrolled,     setScrolled]     = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user,         setUser]         = useState<User | null>(null);
+  const [homeHref,     setHomeHref]     = useState("/dashboard");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -82,6 +83,23 @@ export default function Navbar() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      setHomeHref("/dashboard");
+      return;
+    }
+    let cancelled = false;
+    fetch("/api/auth/home")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && data.path) setHomeHref(data.path);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -145,10 +163,10 @@ export default function Navbar() {
 
           {user ? (
             <Link
-              href="/dashboard"
+              href={homeHref}
               className="text-[13px] font-medium text-white/80 hover:text-white transition-colors"
             >
-              Dashboard
+              {homeHref === "/admin" ? "Admin" : "Dashboard"}
             </Link>
           ) : (
             <Link
@@ -215,10 +233,10 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           {user ? (
             <Link
-              href="/dashboard"
+              href={homeHref}
               className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/90"
             >
-              Dashboard
+              {homeHref === "/admin" ? "Admin" : "Dashboard"}
             </Link>
           ) : null}
           <Link
@@ -257,7 +275,7 @@ export default function Navbar() {
             <div className="mt-2 border-t border-white/8 pt-3">
               {user ? (
                 <Link
-                  href="/dashboard"
+                  href={homeHref}
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-white hover:bg-white/5 mb-1"
                 >
@@ -267,7 +285,7 @@ export default function Navbar() {
                       <path d="M3 9h18M9 21V9"/>
                     </svg>
                   </span>
-                  Dashboard
+                  {homeHref === "/admin" ? "Admin" : "Dashboard"}
                 </Link>
               ) : (
                 <Link

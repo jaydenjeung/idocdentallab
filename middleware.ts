@@ -43,12 +43,24 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    const next = request.nextUrl.searchParams.get('next')
+    const safeNext =
+      next &&
+      next.startsWith('/') &&
+      !next.startsWith('//') &&
+      next !== '/login' &&
+      !next.startsWith('/login?') &&
+      next !== '/register' &&
+      !next.startsWith('/register?')
+        ? next
+        : null
+    const dest = safeNext ?? (isAdminEmail(user.email) ? '/admin' : '/dashboard')
+    return NextResponse.redirect(new URL(dest, request.url))
   }
 
   return supabaseResponse
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/register'],
+  matcher: ['/dashboard', '/dashboard/:path*', '/admin', '/admin/:path*', '/login', '/register'],
 }

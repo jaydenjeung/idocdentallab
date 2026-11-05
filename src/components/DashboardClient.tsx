@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import CaseSubmitForm from './CaseSubmitForm'
+import { fileNameFromPath } from '@/lib/scan-files'
 
 interface Case {
   id: string
@@ -13,6 +14,7 @@ interface Case {
   status: string
   due_date: string
   created_at: string
+  file_paths?: string[]
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -81,6 +83,11 @@ export default function DashboardClient({ userId, doctorName, practiceName, init
                       {new Date(c.created_at).toLocaleDateString()}
                       {c.due_date && ` · Due: ${new Date(c.due_date).toLocaleDateString()}`}
                     </p>
+                    {c.file_paths && c.file_paths.length > 0 && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        Files: {c.file_paths.map(fileNameFromPath).join(', ')}
+                      </p>
+                    )}
                   </div>
                   <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_COLORS[c.status] || 'bg-gray-100 text-gray-600'}`}>
                     {c.status}

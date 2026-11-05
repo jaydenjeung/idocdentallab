@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
-import { isAdminEmail } from "@/lib/admin";
+import { requireAdminUser } from "@/lib/require-admin";
 import { fileNameFromPath } from "@/lib/scan-files";
 
 const BUCKET = "clinic-uploads";
@@ -11,17 +10,8 @@ function isValidStoragePath(path: string): boolean {
   return /^[a-zA-Z0-9_\-./]+$/.test(path);
 }
 
-async function requireAdmin() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user || !isAdminEmail(user.email)) return null;
-  return user;
-}
-
 export async function GET(req: NextRequest) {
-  const user = await requireAdmin();
+  const user = await requireAdminUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

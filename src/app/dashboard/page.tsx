@@ -48,10 +48,10 @@ export default async function DashboardPage() {
           </div>
           {isAdminEmail(user.email) && (
             <Link
-              href="/admin/scans"
+              href="/admin"
               className="inline-flex w-fit items-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:border-green-600 hover:text-green-800"
             >
-              Admin: scan downloads →
+              Admin →
             </Link>
           )}
         </div>

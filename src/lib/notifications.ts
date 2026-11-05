@@ -19,7 +19,17 @@ export function getSupplyNotificationEmails(): string[] {
   return [...new Set([...getNotificationEmails(), ...ADDITIONAL_TEAM_RECIPIENTS])];
 }
 
+const ADDITIONAL_PICKUP_RECIPIENTS = [
+  "wakamatsu@idocdentallab.com",
+];
+
 /** Pickup requests also notify these inboxes in addition to getNotificationEmails(). */
 export function getPickupNotificationEmails(): string[] {
-  return [...new Set([...getNotificationEmails(), ...ADDITIONAL_TEAM_RECIPIENTS])];
+  return [
+    ...new Set([
+      ...getNotificationEmails(),
+      ...ADDITIONAL_TEAM_RECIPIENTS,
+      ...ADDITIONAL_PICKUP_RECIPIENTS,
+    ]),
+  ];
 }
